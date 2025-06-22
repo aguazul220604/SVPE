@@ -13,27 +13,36 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $carreras = Carrera::all();
-        return view('login');
+        return view('login', compact('carreras'));
     }
 
     // Procesar el login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+        // Validación de campos con los nombres correctos
+        $request->validate([
+            'Correo' => 'required|email',
+            'Contrasena' => 'required|string',
         ]);
+
+        // Intentar autenticación usando los campos personalizados
+        $credentials = [
+            'Correo' => $request->Correo,
+            'password' => $request->Contrasena,
+        ];
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect()->intended('/proyectos'); // Ruta después del login
+            return redirect()->intended('/proyectos');
+        }else {
+            dd('Falló el login'); // 👈 Esto te mostrará si fallan las credenciales
         }
 
         return back()->withErrors([
-            'email' => 'Credenciales incorrectas',
+            'Correo' => 'Credenciales incorrectas',
         ]);
     }
-
+    
     // Cerrar sesión
     public function logout(Request $request)
     {
@@ -41,5 +50,11 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    // Sobrescribir el campo que Laravel usa para login
+    public function username()
+    {
+        return 'Correo';
     }
 }
