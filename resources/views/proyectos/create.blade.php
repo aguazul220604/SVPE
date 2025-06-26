@@ -4,95 +4,52 @@
     <meta charset="UTF-8">
     <title>Nuevo proyecto</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 40px;
-        }
-
-        h1 {
-            text-align: right;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .section {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .section-title {
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .grid-2, .grid-3 {
-            display: grid;
-            gap: 15px;
-        }
-
-        .grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .grid-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        label {
-            display: flex;
-            flex-direction: column;
-            font-weight: 500;
-        }
-
-        input, select, textarea {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-top: 5px;
-            resize: vertical;
-        }
-
-        textarea {
-            height: 80px;
-        }
+        /* Estilos previos... */
     </style>
 </head>
 <body>
 
 <h1>Nuevo proyecto</h1>
 
-<form>
+<form method="POST" action="{{ route('proyectos.store') }}">
+    @csrf
     <div class="section">
         <div class="section-title">Proyecto</div>
         <div class="grid-2">
             <label>
                 Usuario líder
-                <select>
-                    <option>Seleccione una opción</option>
+                <select name="IdUsuarioLider" required>
+                    <option value="">Seleccione una opción</option>
+                    @foreach($lideres as $lider)
+                        <option value="{{ $lider->IdUsuario }}">{{ $lider->Nombre }} ({{ $lider->Matricula }})</option>
+                    @endforeach
                 </select>
             </label>
             <label>
                 Categoría
-                <select>
-                    <option>Seleccione una opción</option>
+                <select name="IdCategoria" required>
+                    <option value="">Seleccione una opción</option>
+                    @foreach($categorias as $categoria)
+                        <option value="{{ $categoria->IdCategoria }}">{{ $categoria->Descripcion }}</option>
+                    @endforeach
                 </select>
             </label>
             <label>
                 Estatus
-                <select>
-                    <option>Seleccione una opción</option>
+                <select name="IdStatus" required>
+                    <option value="">Seleccione una opción</option>
+                    @foreach($estatus as $status)
+                        <option value="{{ $status->IdStatus }}">{{ $status->Descripcion }}</option>
+                    @endforeach
                 </select>
             </label>
             <label>
                 Asesor
-                <select>
-                    <option>Seleccione una opción</option>
+                <select name="IdAsesor">
+                    <option value="">Seleccione una opción</option>
+                    @foreach($asesores as $asesor)
+                        <option value="{{ $asesor->IdUsuario }}">{{ $asesor->Nombre }}</option>
+                    @endforeach
                 </select>
             </label>
         </div>
@@ -103,39 +60,45 @@
         <div class="grid-2">
             <label>
                 Nombre
-                <input type="text" placeholder="Nombre del proyecto">
+                <input type="text" name="Nombre" placeholder="Nombre del proyecto" required>
             </label>
             <label>
                 Propuesta
-                <input type="text" placeholder="Propuesta">
+                <input type="text" name="PropValor" placeholder="Propuesta" required>
             </label>
         </div>
 
         <div class="grid-3">
             <label>
                 Introducción
-                <textarea></textarea>
+                <textarea name="Introduccion" required></textarea>
             </label>
             <label>
                 Justificación
-                <textarea></textarea>
+                <textarea name="Justificacion" required></textarea>
             </label>
             <label>
                 Descripción
-                <textarea></textarea>
+                <textarea name="Descripcion" required></textarea>
             </label>
             <label>
                 Objetivos Generales
-                <textarea></textarea>
+                <textarea name="ObjsGrals" required></textarea>
             </label>
             <label>
                 Objetivos Específicos
-                <textarea></textarea>
+                <textarea name="ObjsEspec" required></textarea>
             </label>
             <label>
                 Estado del arte
-                <textarea></textarea>
+                <textarea name="EdoArte" required></textarea>
             </label>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Guardar Proyecto
+            </button>
         </div>
     </div>
 </form>

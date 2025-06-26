@@ -1,146 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Administrador de Proyectos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 40px;
-            background: #fff;
-        }
+@extends('layouts.app')
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-
-        h2 {
-            margin: 0;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .nuevo-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 14px;
-            border: 1px solid #000;
-            border-radius: 6px;
-            text-decoration: none;
-            background-color: #fff;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .buscar {
-            margin-bottom: 20px;
-        }
-
-        .buscar input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            width: 200px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            border-bottom: 1px solid #ccc;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-
-        .acciones {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-editar,
-        .btn-eliminar {
-            padding: 6px 12px;
-            border: 1px solid #555;
-            border-radius: 6px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-
-        .btn-editar:hover {
-            background-color: #eaeaea;
-        }
-
-        .btn-eliminar {
-            border-color: #b20000;
-            color: #b20000;
-        }
-
-        .btn-eliminar:hover {
-            background-color: #fbeaea;
-        }
-
-        .no-result {
-            text-align: center;
-            color: #999;
-            padding: 20px;
-        }
-    </style>
-</head>
-<body>
-
+@section('content')
 <div class="container">
-    <div class="header">
+    <div class="header d-flex justify-content-between align-items-center mb-4">
         <h2>Administrador de Proyectos</h2>
-        <a href="/proyectos/create" class="nuevo-btn">＋ Nuevo proyecto</a>
+        <a href="{{ route('proyectos.create') }}" class="btn btn-primary">＋ Nuevo proyecto</a>
     </div>
 
-    <div class="buscar">
-        <input type="text" name="buscar" placeholder="Buscar">
-    </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    <table>
+    <form class="mb-3" method="GET" action="{{ route('proyectos.index') }}">
+        <input type="text" name="buscar" class="form-control w-auto d-inline-block" placeholder="Buscar" value="{{ request('buscar') }}">
+        <button type="submit" class="btn btn-secondary btn-sm">Buscar</button>
+    </form>
+
+    <table class="table table-striped">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nombre</th>
-                <th>Fecha de alta</th>
+                <th>Líder</th>
+                <th>Categoría</th>
+                <th>Estatus</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Proyecto de ejemplo -->
+            @forelse($proyectos as $proyecto)
             <tr>
-                <td>Autonoguide</td>
-                <td>11/06/2025 6:00 PM</td>
-                <td>
-                    <div class="acciones">
-                        <button class="btn-editar">Editar</button>
-                        <button class="btn-eliminar">Eliminar</button>
-                    </div>
+                <td>{{ $proyecto->IdProyecto }}</td>
+                <td>{{ $proyecto->descripcion->Nombre ?? 'Sin nombre' }}</td>
+                <td>{{ $proyecto->lider->Nombre ?? 'Sin líder' }}</td>
+                <td>{{ $proyecto->categoria->Descripcion ?? 'Sin categoría' }}</td>
+                <td>{{ $proyecto->descripcion->estatus->Descripcion ?? 'Sin estatus' }}</td>
+                <td class="d-flex gap-2">
+                    <a href="{{ route('proyectos.show', $proyecto->IdProyecto) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ route('proyectos.edit', $proyecto->IdProyecto) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="{{ route('proyectos.destroy', $proyecto->IdProyecto) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este proyecto?')" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
                 </td>
             </tr>
-
-            <!-- Sin resultados -->
-            <!--
+            @empty
             <tr>
-                <td colspan="3" class="no-result">No se encontraron proyectos.</td>
+                <td colspan="6" class="text-center text-muted py-4">No se encontraron proyectos.</td>
             </tr>
-            -->
+            @endforelse
         </tbody>
     </table>
 </div>
-
-</body>
-</html>
+@endsection

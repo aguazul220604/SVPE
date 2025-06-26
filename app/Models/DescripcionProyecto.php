@@ -2,41 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DescripcionProyecto extends Model
 {
+    use HasFactory;
+
     protected $table = 'TblDescripcionProyecto';
     protected $primaryKey = 'IdDescProyecto';
     public $timestamps = false;
 
     protected $fillable = [
-        'Nombre',
-        'PropValor',
-        'Introduccion',
-        'Justificacion',
-        'Descripcion',
-        'ObjsGrals',
-        'ObjsEspec',
-        'EdoArte',
-        'Fortalezas',
-        'Oportunidades',
-        'Debilidades',
-        'Amenazas',
-        'Metodologia',
-        'Costos',
-        'Resultados',
-        'Referencias',
-        'Pdf',
-        'IdStatus',
-        'FechaAlta',
-        'FechaMod',
-        'IdUsuarioAlta',
-        'IdUsuarioMod',
+        // ... (todos los campos que tienes en la tabla)
     ];
 
     public function estatus()
     {
-        return $this->belongsTo(Estatus::class, 'IdStatus', 'IdStatus');
+        return $this->belongsTo(Estatus::class, 'IdStatus');
+    }
+
+    public function proyecto()
+    {
+        return $this->hasOne(Proyecto::class, 'IdDescripcion');
     }
 }

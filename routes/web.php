@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
         // Ruta para mostrar un proyecto específico
         Route::get('/proyectos/{proyecto}', [ProyectosController::class, 'show'])->name('proyectos.show');
 
+        
+        Route::resource('proyectos', 'App\Http\Controllers\ProyectosController');
+
         //  formulario de edición
         Route::get('/proyectos/{proyecto}/edit', [ProyectosController::class, 'edit'])->name('proyectos.edit');
         });
