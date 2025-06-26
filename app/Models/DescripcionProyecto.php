@@ -14,7 +14,28 @@ class DescripcionProyecto extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        // ... (todos los campos que tienes en la tabla)
+        'Nombre',
+        'PropValor',
+        'Introduccion',
+        'Justificacion',
+        'Descripcion',
+        'ObjsGrals',
+        'ObjsEspec',
+        'EdoArte',
+        'Fortalezas',
+        'Oportunidades',
+        'Debilidades',
+        'Amenazas',
+        'Metodologia',
+        'Costos',
+        'Resultados',
+        'Referencias',
+        'Pdf',
+        'IdStatus',
+        'FechaAlta',
+        'FechaMod',
+        'IdUsuarioAlta',
+        'IdUsuarioMod',
     ];
 
     public function estatus()
