@@ -1,9 +1,74 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
 <div class="container">
-    <h1>Editar Proyecto</h1>
-    
+    <h1>Editar proyecto</h1>
+
     @if($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,13 +78,12 @@
             </ul>
         </div>
     @endif
-    
-    <form method="POST" action="{{ route('proyectos.update', $proyecto->IdProyecto) }}">
+
+    <form method="POST" action="{{ route('proyectos.update', $proyecto->IdProyecto) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        
         <div class="section">
-            <div class="section-title">Proyecto</div>
+            <div class="section-title">Información básica</div>
             <div class="grid-2">
                 <label>
                     Usuario líder
@@ -48,7 +112,7 @@
                     <select name="IdStatus" required>
                         <option value="">Seleccione una opción</option>
                         @foreach($estatus as $status)
-                            <option value="{{ $status->IdStatus }}" {{ $proyecto->descripcion->IdStatus == $status->IdStatus ? 'selected' : '' }}>
+                            <option value="{{ $status->IdStatus }}" {{ $proyecto->IdStatus == $status->IdStatus ? 'selected' : '' }}>
                                 {{ $status->Descripcion }}
                             </option>
                         @endforeach
@@ -59,7 +123,7 @@
                     <select name="IdAsesor">
                         <option value="">Seleccione una opción</option>
                         @foreach($asesores as $asesor)
-                            <option value="{{ $asesor->IdUsuario }}">
+                            <option value="{{ $asesor->IdUsuario }}" {{ $proyecto->IdAsesor == $asesor->IdUsuario ? 'selected' : '' }}>
                                 {{ $asesor->Nombre }}
                             </option>
                         @endforeach
@@ -69,49 +133,62 @@
         </div>
 
         <div class="section">
-            <div class="section-title">Descripción</div>
+            <div class="section-title">Documentación del proyecto</div>
             <div class="grid-2">
                 <label>
-                    Nombre
-                    <input type="text" name="Nombre" value="{{ $proyecto->descripcion->Nombre }}" required>
+                    Nombre del proyecto
+                    <input type="text" name="Nombre" value="{{ $proyecto->descripcion->Nombre ?? '' }}" required>
                 </label>
                 <label>
-                    Propuesta
-                    <input type="text" name="PropValor" value="{{ $proyecto->descripcion->PropValor }}" required>
+                    Propuesta de valor
+                    <input type="text" name="PropValor" value="{{ $proyecto->descripcion->PropValor ?? '' }}" required>
                 </label>
             </div>
 
             <div class="grid-3">
                 <label>
                     Introducción
-                    <textarea name="Introduccion" required>{{ $proyecto->descripcion->Introduccion }}</textarea>
+                    <textarea name="Introduccion">{{ $proyecto->descripcion->Introduccion ?? '' }}</textarea>
                 </label>
                 <label>
                     Justificación
-                    <textarea name="Justificacion" required>{{ $proyecto->descripcion->Justificacion }}</textarea>
+                    <textarea name="Justificacion">{{ $proyecto->descripcion->Justificacion ?? '' }}</textarea>
                 </label>
                 <label>
                     Descripción
-                    <textarea name="Descripcion" required>{{ $proyecto->descripcion->Descripcion }}</textarea>
+                    <textarea name="Descripcion">{{ $proyecto->descripcion->Descripcion ?? '' }}</textarea>
                 </label>
                 <label>
                     Objetivos Generales
-                    <textarea name="ObjsGrals" required>{{ $proyecto->descripcion->ObjsGrals }}</textarea>
+                    <textarea name="ObjsGrals">{{ $proyecto->descripcion->ObjsGrals ?? '' }}</textarea>
                 </label>
                 <label>
                     Objetivos Específicos
-                    <textarea name="ObjsEspec" required>{{ $proyecto->descripcion->ObjsEspec }}</textarea>
+                    <textarea name="ObjsEspec">{{ $proyecto->descripcion->ObjsEspec ?? '' }}</textarea>
                 </label>
                 <label>
                     Estado del arte
-                    <textarea name="EdoArte" required>{{ $proyecto->descripcion->EdoArte }}</textarea>
+                    <textarea name="EdoArte">{{ $proyecto->descripcion->EdoArte ?? '' }}</textarea>
                 </label>
             </div>
             
             <div style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
-                <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
+                <label>
+                    Documento PDF
+                    <input type="file" name="pdf" accept=".pdf">
+                    <small>Sube el documento completo del proyecto en formato PDF</small>
+                    @if(isset($proyecto->descripcion->pdf_path))
+                        <div style="margin-top:8px;">
+                            <a href="{{ asset('storage/' . $proyecto->descripcion->pdf_path) }}" target="_blank">Ver PDF actual</a>
+                        </div>
+                    @endif
+                </label>
             </div>
+        </div>
+
+        <div class="actions">
+            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
         </div>
     </form>
 </div>
