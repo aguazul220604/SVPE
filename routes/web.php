@@ -14,6 +14,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 
 //  autenticación
 Route::middleware(['auth'])->group(function () {
+        
         // Ruta principal 
         Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
 

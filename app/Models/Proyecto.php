@@ -47,4 +47,7 @@ class Proyecto extends Model
         return $this->belongsToMany(Convocatoria::class, 'TblProyectoConvocatoria', 'IdProyecto', 'IdConvocatoria')
             ->withPivot('IdUsuarioPostula', 'Participo', 'EstatusConvocatoria', 'Estatus');
     }
+    
+
+    
 }

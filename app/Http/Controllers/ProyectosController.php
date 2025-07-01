@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Proyecto;
 use App\Models\TblUsuario;
@@ -10,14 +10,33 @@ use App\Models\Estatus;
 use App\Models\DescripcionProyecto;
 use App\Models\ProyectoEliminado;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProyectosController extends Controller
 {
-    public function index()
-    {
-        $proyectos = Proyecto::with(['lider', 'categoria', 'descripcion'])->get();
-        return view('proyectos.index', compact('proyectos'));
-    }
+public function index(Request $request)
+{
+    $buscar = $request->input('buscar');
+    $userId = Auth::id(); // Usuario autenticado
+
+    $proyectos = Proyecto::with(['lider', 'categoria', 'descripcion.estatus'])
+        ->where('IdUsuarioMod', $userId) // filtramos por quien creó el proyecto
+        ->when($buscar, function ($query, $buscar) {
+            $query->where(function ($query) use ($buscar) {
+                $query->whereHas('descripcion', function ($q) use ($buscar) {
+                    $q->where('Nombre', 'like', '%' . $buscar . '%');
+                })->orWhereHas('lider', function ($q) use ($buscar) {
+                    $q->where('Nombre', 'like', '%' . $buscar . '%');
+                })->orWhereHas('categoria', function ($q) use ($buscar) {
+                    $q->where('Descripcion', 'like', '%' . $buscar . '%');
+                });
+            });
+        })
+        ->get();
+
+    return view('proyectos.index', compact('proyectos'));
+}
+
 
     public function create()
     {
@@ -32,9 +51,9 @@ class ProyectosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'IdUsuarioLider' => 'required|exists:tbll_usuario,IdUsuario',
-            'IdCategoria' => 'required|exists:cat_categoria,IdCategoria',
-            'IdStatus' => 'required|exists:cat_estatus,IdStatus',
+            'IdUsuarioLider' => 'required|exists:tblusuario,IdUsuario',
+            'IdCategoria' => 'required|exists:catcategoria,IdCategoria',
+            'IdStatus' => 'required|exists:catestatus,IdStatus',
             'Nombre' => 'required|string|max:255',
             'PropValor' => 'required|string|max:255',
             'Introduccion' => 'required|string',
@@ -48,7 +67,6 @@ class ProyectosController extends Controller
         DB::beginTransaction();
 
         try {
-            // Crear la descripción del proyecto
             $descripcion = DescripcionProyecto::create([
                 'Nombre' => $request->Nombre,
                 'PropValor' => $request->PropValor,
@@ -60,17 +78,16 @@ class ProyectosController extends Controller
                 'EdoArte' => $request->EdoArte,
                 'IdStatus' => $request->IdStatus,
                 'FechaAlta' => now(),
-                'IdUsuarioAlta' => auth()->id() ?? 1,
+                'IdUsuarioAlta' => Auth::id(),
             ]);
 
-            // Crear el proyecto
             $proyecto = Proyecto::create([
                 'IdUsuarioLider' => $request->IdUsuarioLider,
                 'IdCategoria' => $request->IdCategoria,
                 'IdDescripcion' => $descripcion->IdDescProyecto,
                 'FechaAlta' => now(),
                 'FechaMod' => now(),
-                'IdUsuarioMod' => auth()->id() ?? 1,
+                'IdUsuarioMod' => Auth::id(),
             ]);
 
             DB::commit();
@@ -120,15 +137,13 @@ class ProyectosController extends Controller
         try {
             $proyecto = Proyecto::findOrFail($id);
 
-            // Actualizar el proyecto
             $proyecto->update([
                 'IdUsuarioLider' => $request->IdUsuarioLider,
                 'IdCategoria' => $request->IdCategoria,
                 'FechaMod' => now(),
-                'IdUsuarioMod' => auth()->id() ?? 1,
+                'IdUsuarioMod' => Auth::id(),
             ]);
 
-            // Actualizar la descripción
             $proyecto->descripcion->update([
                 'Nombre' => $request->Nombre,
                 'PropValor' => $request->PropValor,
@@ -140,7 +155,7 @@ class ProyectosController extends Controller
                 'EdoArte' => $request->EdoArte,
                 'IdStatus' => $request->IdStatus,
                 'FechaMod' => now(),
-                'IdUsuarioMod' => auth()->id() ?? 1,
+                'IdUsuarioMod' => Auth::id(),
             ]);
 
             DB::commit();
@@ -158,15 +173,13 @@ class ProyectosController extends Controller
 
         try {
             $proyecto = Proyecto::findOrFail($id);
-            
-            // Registrar en proyectos eliminados
-            ProyectoEliminados::create([
+
+            ProyectoEliminado::create([
                 'IdProyecto' => $proyecto->IdProyecto,
-                'IdUsuario' => auth()->id() ?? 1,
+                'IdUsuario' => Auth::id(),
                 'FechaElimina' => now(),
             ]);
 
-            // Eliminar el proyecto
             $proyecto->delete();
 
             DB::commit();
