@@ -11,6 +11,8 @@ use App\Models\DescripcionProyecto;
 use App\Models\ProyectoEliminado;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProyectosController extends Controller
 {
@@ -47,26 +49,43 @@ public function index(Request $request)
 
         return view('proyectos.create', compact('lideres', 'categorias', 'estatus', 'asesores'));
     }
+    
+     public function show($id)
+    {
+        $proyecto = Proyecto::with(['lider', 'categoria', 'descripcion', 'integrantes'])->findOrFail($id);
+        return view('proyectos.show', compact('proyecto'));
+    }
+
+    public function edit($id)
+    {
+        $proyecto = Proyecto::with('descripcion')->findOrFail($id);
+        $lideres = TblUsuario::where('IdRol', 2)->get();
+        $categorias = Categoria::where('Estatus', 1)->get();
+        $estatus = Estatus::where('Catalogo', 'Proyectos')->get();
+        $asesores = TblUsuario::where('IdRol', 5)->get();
+
+        return view('proyectos.edit', compact('proyecto', 'lideres', 'categorias', 'estatus', 'asesores'));
+    }
 
     public function store(Request $request)
     {
         $request->validate([
-            'IdUsuarioLider' => 'required|exists:tblusuario,IdUsuario',
-            'IdCategoria' => 'required|exists:catcategoria,IdCategoria',
-            'IdStatus' => 'required|exists:catestatus,IdStatus',
+
+            'IdUsuarioLider' => 'required|exists:Tblusuario,IdUsuario',
+            'IdCategoria' => 'required|exists:Catcategoria,IdCategoria',
+            'IdStatus' => 'required|exists:Catestatus,IdStatus',
             'Nombre' => 'required|string|max:255',
             'PropValor' => 'required|string|max:255',
-            'Introduccion' => 'required|string',
-            'Justificacion' => 'required|string',
-            'Descripcion' => 'required|string',
-            'ObjsGrals' => 'required|string',
-            'ObjsEspec' => 'required|string',
-            'EdoArte' => 'required|string',
+            'pdf' => 'required|file|mimes:pdf|max:2048',
         ]);
 
         DB::beginTransaction();
 
         try {
+            // Procesar el archivo PDF
+            $pdfPath = $request->file('pdf')->store('proyectos', 'public');
+
+            // Crear la descripción del proyecto
             $descripcion = DescripcionProyecto::create([
                 'Nombre' => $request->Nombre,
                 'PropValor' => $request->PropValor,
@@ -76,6 +95,15 @@ public function index(Request $request)
                 'ObjsGrals' => $request->ObjsGrals,
                 'ObjsEspec' => $request->ObjsEspec,
                 'EdoArte' => $request->EdoArte,
+                'Fortalezas'=>$request->Fortalezas,
+                'Oportunidades'=>$request->Oportunidades,
+                'Debilidades'=>$request->Debilidades,
+                'Amenazas'=>$request->Amenazas,
+                'Metodologias'=>$request->Metodologias,
+                'Costos'=>$request->Costos,
+                'Resultados'=>$request->Resultados,
+                'Referencias'=>$request->Referencias,
+                'Pdf' => $pdfPath,
                 'IdStatus' => $request->IdStatus,
                 'FechaAlta' => now(),
                 'IdUsuarioAlta' => Auth::id(),
@@ -99,95 +127,131 @@ public function index(Request $request)
         }
     }
 
-    public function show($id)
-    {
-        $proyecto = Proyecto::with(['lider', 'categoria', 'descripcion', 'integrantes'])->findOrFail($id);
-        return view('proyectos.show', compact('proyecto'));
-    }
+  public function update(Request $request, $id)
+{
+    $request->validate([
+        'IdUsuarioLider' => 'required|exists:Tblusuario,IdUsuario',
+        'IdCategoria' => 'required|exists:Catcategoria,IdCategoria',
+        'IdStatus' => 'required|exists:Catestatus,IdStatus',
+        'Nombre' => 'required|string|max:255',
+        'PropValor' => 'required|string|max:255',
+        'pdf' => 'nullable|file|mimes:pdf|max:2048',
+    ]);
 
-    public function edit($id)
-    {
-        $proyecto = Proyecto::with('descripcion')->findOrFail($id);
-        $lideres = TblUsuario::where('IdRol', 2)->get();
-        $categorias = Categoria::where('Estatus', 1)->get();
-        $estatus = Estatus::where('Catalogo', 'Proyectos')->get();
-        $asesores = TblUsuario::where('IdRol', 5)->get();
+    DB::beginTransaction();
 
-        return view('proyectos.edit', compact('proyecto', 'lideres', 'categorias', 'estatus', 'asesores'));
-    }
+    try {
+        $proyecto = Proyecto::findOrFail($id);
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'IdUsuarioLider' => 'required|exists:tbl_usuario,IdUsuario',
-            'IdCategoria' => 'required|exists:cat_categoria,IdCategoria',
-            'IdStatus' => 'required|exists:cat_estatus,IdStatus',
-            'Nombre' => 'required|string|max:255',
-            'PropValor' => 'required|string|max:255',
-            'Introduccion' => 'required|string',
-            'Justificacion' => 'required|string',
-            'Descripcion' => 'required|string',
-            'ObjsGrals' => 'required|string',
-            'ObjsEspec' => 'required|string',
-            'EdoArte' => 'required|string',
+        // Actualiza los datos del proyecto
+        $proyecto->update([
+            'IdUsuarioLider' => $request->IdUsuarioLider,
+            'IdCategoria' => $request->IdCategoria,
+            'FechaMod' => now(),
+            'IdUsuarioMod' => Auth::id(),
         ]);
 
-        DB::beginTransaction();
+        // Procesar el PDF (si se subió uno)
+        $pdfData = [];
 
-        try {
-            $proyecto = Proyecto::findOrFail($id);
+        if ($request->hasFile('pdf')) {
+            // Eliminar PDF anterior
+            if ($proyecto->descripcion->Pdf) {
+                Storage::disk('public')->delete($proyecto->descripcion->Pdf);
+            }
 
-            $proyecto->update([
-                'IdUsuarioLider' => $request->IdUsuarioLider,
-                'IdCategoria' => $request->IdCategoria,
-                'FechaMod' => now(),
-                'IdUsuarioMod' => Auth::id(),
-            ]);
-
-            $proyecto->descripcion->update([
-                'Nombre' => $request->Nombre,
-                'PropValor' => $request->PropValor,
-                'Introduccion' => $request->Introduccion,
-                'Justificacion' => $request->Justificacion,
-                'Descripcion' => $request->Descripcion,
-                'ObjsGrals' => $request->ObjsGrals,
-                'ObjsEspec' => $request->ObjsEspec,
-                'EdoArte' => $request->EdoArte,
-                'IdStatus' => $request->IdStatus,
-                'FechaMod' => now(),
-                'IdUsuarioMod' => Auth::id(),
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado exitosamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput()->with('error', 'Error al actualizar el proyecto: ' . $e->getMessage());
+            // Guardar nuevo PDF
+            $pdfPath = $request->file('pdf')->store('proyectos', 'public');
+            $pdfData['Pdf'] = $pdfPath;
         }
-    }
 
-    public function destroy($id)
-    {
-        DB::beginTransaction();
+        // Actualizar la descripción del proyecto
+        $proyecto->descripcion->update(array_merge([
+            'Nombre' => $request->Nombre,
+            'PropValor' => $request->PropValor,
+            'Introduccion' => $request->Introduccion,
+            'Justificacion' => $request->Justificacion,
+            'Descripcion' => $request->Descripcion,
+            'ObjsGrals' => $request->ObjsGrals,
+            'ObjsEspec' => $request->ObjsEspec,
+            'EdoArte' => $request->EdoArte,
+            'Fortalezas' => $request->Fortalezas,
+            'Oportunidades' => $request->Oportunidades,
+            'Debilidades' => $request->Debilidades,
+            'Amenazas' => $request->Amenazas,
+            'Metodologias' => $request->Metodologias,
+            'Costos' => $request->Costos,
+            'Resultados' => $request->Resultados,
+            'Referencias' => $request->Referencias,
+            'IdStatus' => $request->IdStatus,
+            'FechaMod' => now(),
+            'IdUsuarioMod' => auth()->id() ?? 1,
+        ], $pdfData));
 
-        try {
-            $proyecto = Proyecto::findOrFail($id);
+        DB::commit();
 
-            ProyectoEliminado::create([
-                'IdProyecto' => $proyecto->IdProyecto,
-                'IdUsuario' => Auth::id(),
-                'FechaElimina' => now(),
-            ]);
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado exitosamente.');
 
-            $proyecto->delete();
-
-            DB::commit();
-
-            return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado exitosamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Error al eliminar el proyecto: ' . $e->getMessage());
-        }
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withInput()->with('error', 'Error al actualizar el proyecto: ' . $e->getMessage());
     }
 }
+
+
+    // Método para descargar el PDF
+    public function downloadPdf($id)
+    {
+        $proyecto = Proyecto::with('descripcion')->findOrFail($id);
+        
+        if (!$proyecto->descripcion->Pdf) {
+            return back()->with('error', 'El proyecto no tiene un documento PDF asociado.');
+        }
+
+        $path = storage_path('app/public/' . $proyecto->descripcion->Pdf);
+        
+        return response()->download($path, 'proyecto_' . $proyecto->descripcion->Nombre . '.pdf');
+    }
+
+    // Método para generar un PDF con los datos del proyecto
+    public function generatePdf($id)
+    {
+        $proyecto = Proyecto::with(['lider', 'categoria', 'descripcion'])->findOrFail($id);
+        
+        $pdf = \PDF::loadView('proyectos.pdf', compact('proyecto'));
+        
+        return $pdf->download('resumen_proyecto_' . $proyecto->descripcion->Nombre . '.pdf');
+    }
+
+  
+public function destroy($id)
+{
+    DB::beginTransaction();
+
+    try {
+        $proyecto = Proyecto::findOrFail($id);
+
+        // Guardar en la tabla de proyectos eliminados
+        ProyectoEliminado::create([
+            'IdProyecto'     => $proyecto->IdProyecto,
+            'IdUsuario'      => auth()->id() ?? 1,
+            'FechaElimina'   => now(),
+        ]);
+
+        // Eliminar el proyecto (las tablas hijas se eliminan automáticamente por ON DELETE CASCADE)
+        $proyecto->delete();
+
+        DB::commit();
+
+        return redirect()->route('proyectos.index')->with('success', 'Proyecto eliminado exitosamente.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Error al eliminar el proyecto: ' . $e->getMessage());
+    }
+}
+
+
+
+
+}
+

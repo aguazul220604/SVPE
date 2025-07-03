@@ -40,11 +40,11 @@
                 <td class="d-flex gap-2">
                     <a href="{{ route('proyectos.show', $proyecto->IdProyecto) }}" class="btn btn-info btn-sm">Ver</a>
                     <a href="{{ route('proyectos.edit', $proyecto->IdProyecto) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="{{ route('proyectos.destroy', $proyecto->IdProyecto) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este proyecto?')" style="display:inline;">
+                  <form action="{{ route('proyectos.destroy', $proyecto->IdProyecto) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este proyecto?')" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                  </form>
                 </td>
             </tr>
             @empty

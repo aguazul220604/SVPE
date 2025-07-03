@@ -34,7 +34,9 @@ class Proyecto extends Model
 
     public function descripcion()
     {
-        return $this->belongsTo(DescripcionProyecto::class, 'IdDescripcion');
+        //return $this->belongsTo(DescripcionProyecto::class, 'IdDescripcion');
+        return $this->belongsTo(DescripcionProyecto::class, 'IdDescripcion', 'IdDescProyecto');
+
     }
 
     public function integrantes()
