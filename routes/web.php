@@ -31,4 +31,10 @@ Route::middleware(['auth'])->group(function () {
     // Rutas de monitoreo
     Route::get('/monitoreo', [MonitoreoController::class, 'monitoreo'])->name('monitoreo');
     Route::get('/monitoreo/{id}', [MonitoreoController::class, 'show'])->name('monitoreo.show');
+
+     // Ruta de proyectos
+    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
+    
+    // Ruta de monitoreo
+    Route::get('/monitoreo', [ConvocatoriaController::class, 'index'])->name('monitoreo.index');
 });

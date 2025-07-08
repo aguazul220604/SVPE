@@ -24,7 +24,7 @@ class Proyecto extends Model
 
     public function lider()
     {
-        return $this->belongsTo(TblUsuario::class, 'IdUsuarioLider');
+        return $this->belongsTo(Usuario::class, 'IdUsuarioLider');
     }
 
     public function categoria()
@@ -34,9 +34,7 @@ class Proyecto extends Model
 
     public function descripcion()
     {
-        //return $this->belongsTo(DescripcionProyecto::class, 'IdDescripcion');
         return $this->belongsTo(DescripcionProyecto::class, 'IdDescripcion', 'IdDescProyecto');
-
     }
 
     public function integrantes()
@@ -49,7 +47,4 @@ class Proyecto extends Model
         return $this->belongsToMany(Convocatoria::class, 'TblProyectoConvocatoria', 'IdProyecto', 'IdConvocatoria')
             ->withPivot('IdUsuarioPostula', 'Participo', 'EstatusConvocatoria', 'Estatus');
     }
-    
-
-    
 }

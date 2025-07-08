@@ -18,7 +18,7 @@
         <button type="submit" class="btn btn-secondary btn-sm">Buscar</button>
     </form>
 
-    <table class="table table-striped">
+    <table class="table table-striped">php
         <thead>
             <tr>
                 <th>ID</th>

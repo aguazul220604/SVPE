@@ -10,8 +10,5 @@ class Categoria extends Model
     protected $primaryKey = 'IdCategoria';
     public $timestamps = false;
 
-    protected $fillable = [
-        'Descripcion', 
-        'Estatus'
-    ];
+    protected $fillable = ['Descripcion', 'Estatus'];
 }

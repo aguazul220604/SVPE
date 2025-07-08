@@ -24,14 +24,16 @@ class ProyectoConvocatoria extends Model
 
     public function proyecto()
     {
-        return $this->belongsTo(Proyecto::class, 'IdProyecto', 'IdProyecto');
+        return $this->belongsTo(Proyecto::class, 'IdProyecto');
     }
+
     public function convocatoria()
     {
-        return $this->belongsTo(Convocatoria::class, 'IdConvocatoria', 'IdConvocatoria');
+        return $this->belongsTo(Convocatoria::class, 'IdConvocatoria');
     }
+
     public function usuarioPostula()
     {
-        return $this->belongsTo(Usuario::class, 'IdUsuarioPostula', 'IdUsuario');
+        return $this->belongsTo(Usuario::class, 'IdUsuarioPostula');
     }
 }

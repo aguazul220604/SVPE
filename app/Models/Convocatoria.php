@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Convocatoria extends Model
 {
     protected $table = 'TblConvocatoria';
-    protected $primaryKey = ' IdConvocatoria';
+    protected $primaryKey = 'IdConvocatoria';
     public $timestamps = false;
 
     protected $fillable = [
         'FechaInicio',
         'FechaFin',
         'Edad',
-        'residencia',
+        'Residencia',
         'Pdf',
         'RestriccionPart',
         'IdCategoria',
@@ -30,8 +30,15 @@ class Convocatoria extends Model
     {
         return $this->belongsTo(Categoria::class, 'IdCategoria');
     }
+
     public function estatus()
     {
         return $this->belongsTo(Estatus::class, 'IdEstatus');
+    }
+
+    public function proyectos()
+    {
+        return $this->belongsToMany(Proyecto::class, 'TblProyectoConvocatoria', 'IdConvocatoria', 'IdProyecto')
+            ->withPivot('IdUsuarioPostula', 'Participo', 'EstatusConvocatoria', 'Estatus');
     }
 }

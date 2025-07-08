@@ -10,10 +10,5 @@ class Estatus extends Model
     protected $primaryKey = 'IdStatus';
     public $timestamps = false;
 
-    protected $fillable = [
-        'Descripcion',
-        'Estatus',
-        'Catalogo',
-    ];
-
+    protected $fillable = ['Descripcion', 'Estatus', 'Catalogo'];
 }
