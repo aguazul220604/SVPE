@@ -36,6 +36,11 @@ class Convocatoria extends Model
         return $this->belongsTo(Estatus::class, 'IdEstatus');
     }
 
+    public function proyectosConvocatoria()
+    {
+        return $this->hasMany(ProyectoConvocatoria::class, 'IdConvocatoria');
+    }
+
     public function proyectos()
     {
         return $this->belongsToMany(Proyecto::class, 'TblProyectoConvocatoria', 'IdConvocatoria', 'IdProyecto')

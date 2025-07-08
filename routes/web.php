@@ -28,13 +28,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proyectos/{proyecto}/generate-pdf', [ProyectosController::class, 'generatePdf'])
          ->name('proyectos.generate-pdf');
 
-    // Rutas de monitoreo
-    Route::get('/monitoreo', [MonitoreoController::class, 'monitoreo'])->name('monitoreo');
-    Route::get('/monitoreo/{id}', [MonitoreoController::class, 'show'])->name('monitoreo.show');
 
      // Ruta de proyectos
-    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
+    Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
     
     // Ruta de monitoreo
-    Route::get('/monitoreo', [ConvocatoriaController::class, 'index'])->name('monitoreo.index');
+    Route::get('/monitoreo', [MonitoreoController::class, 'index'])->name('monitoreo.index');
 });

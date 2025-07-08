@@ -34,6 +34,6 @@ class ProyectoConvocatoria extends Model
 
     public function usuarioPostula()
     {
-        return $this->belongsTo(Usuario::class, 'IdUsuarioPostula');
+        return $this->belongsTo(Usuario::class, 'IdUsuarioPostula', 'IdUsuario');
     }
 }
