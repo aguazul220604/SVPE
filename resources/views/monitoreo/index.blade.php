@@ -1,3 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+   
+    <style>
+        
+    .btn-status {
+        background-color: #dc3545; 
+        border: 1px solid #dc3545;
+    }
+
+    .btn-status.active,
+    .btn-status:hover {
+        background-color: #a71d2a;
+        border-color: #a71d2a;
+    }
+    .cat {
+        text-decoration: none !important;
+    }
+
+    /* Mejora la separación de fechas */
+    .convocatoria-header {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.info-fechas .fecha {
+    margin-right: 20px;
+    font-size: 14px;
+    margin-right: 7rem;
+}
+
+.categoria {
+    font-size: 14px;
+    margin-right: 15px;
+    text-decoration: none; /* elimina subrayado */
+}
+.badge-estatus {
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-left: 250px;
+}
+
+.badge {
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.btn-toggle {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+    .info-etiquetas .badge {
+        font-size: 0.85rem;
+        padding: 0.4em 0.6em;
+    }
+</style>
+
+
+</head>
+<body>
+  
 @extends('layouts.app')
 
 @section('title', 'Monitoreo de Convocatorias')
@@ -5,7 +79,7 @@
 <div class="container">
     <h1>Monitoreo de Convocatorias</h1>
     
-    <div class="mb-4">
+    <div class="d-flex justify-content-end gap-2 mb-4">
         <a href="{{ route('monitoreo.index', ['estatus' => 'VIGENTE']) }}" 
            class="btn {{ request('estatus') == 'VIGENTE' ? 'btn-primary' : 'btn-outline-primary' }}">VIGENTE</a>
         <a href="{{ route('monitoreo.index', ['estatus' => 'PROXIMAMENTE']) }}" 
@@ -34,13 +108,14 @@
                 @endphp
                 
                 <div class="mb-4 p-3 border-bottom">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h5 class="mb-0">
-                            <strong>FECHA INICIO:</strong> {{ date('d/m/Y', strtotime($convocatoria->FechaInicio)) }}
-                            <strong>FECHA FIN:</strong> {{ date('d/m/Y', strtotime($convocatoria->FechaFin)) }}
-                            <span class="badge bg-secondary">{{ $convocatoria->categoria->Descripcion ?? 'Sin categoría' }}</span>
-                            <span class="badge {{ $badgeClass }}">{{ $estatus }}</span>
-                        </h5>
+                    <div class="convocatoria-header d-flex justify-content-between align-items-center mb-2 p-2 px-3">
+                            <div class="info-fechas d-flex flex-wrap align-items-center gap-3">
+                            <span class="fecha"><strong>FECHA INICIO:</strong> {{ date('d/m/Y', strtotime($convocatoria->FechaInicio)) }}</span>
+                            <span class="fecha"><strong>FECHA FIN:</strong> {{ date('d/m/Y', strtotime($convocatoria->FechaFin)) }}</span>
+                            <span class="cat">{{ $convocatoria->categoria->Descripcion ?? 'Sin categoría' }}</span>
+
+                            <span class="badge-estatus {{ $badgeClass }}">{{ $estatus }}</span>
+                        </div>
                     </div>
                     
                     @if($convocatoria->proyectosConvocatoria->isNotEmpty())
@@ -95,3 +170,11 @@
     </div>
 </div>
 @endsection
+</body>
+<script>
+function toggleProyectos(index) {
+    const container = document.getElementById(`proyectos-${index}`);
+    container.classList.toggle('d-none');
+}
+</script>
+</html>

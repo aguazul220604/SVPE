@@ -93,7 +93,9 @@
     </style>
 </head>
 <body>
+@extends('layouts.app')
 
+@section('content')
 <h1>Nuevo proyecto</h1>
 
 <form method="POST" action="{{ route('proyectos.store') }}" enctype="multipart/form-data">
@@ -340,6 +342,6 @@
     });
 });
 </script>
-
+@endsection
 </body>
 </html>
