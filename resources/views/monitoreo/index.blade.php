@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTTX5eUpj5Tx4QzE5S+fD9zN8QGp6RPo6YZqki3F1QZc1FqFzP0ZWB3bmcjPjgj3cfWhMZsxw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         
     .btn-status {
@@ -66,6 +66,35 @@
         font-size: 0.85rem;
         padding: 0.4em 0.6em;
     }
+
+  .boton-proyecto{
+        border: 1px solid #f73878;
+         color: #f73878;
+        background-color: transparent;
+        border-radius: 8px;
+        padding: 11px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+         }
+
+        .boton-proyecto:hover {
+        background-color: #f73878;
+        color: white;
+        text-decoration: none;
+        }
+        .icono-toggle {
+            font-size: 18px;
+            color: #040404;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .icono-toggle.rotado {
+            transform: rotate(180deg); /* para animar cuando esté abierto */
+        }
 </style>
 
 
@@ -79,16 +108,16 @@
 <div class="container">
     <h1>Monitoreo de Convocatorias</h1>
     
-    <div class="d-flex justify-content-end gap-2 mb-4">
-        <a href="{{ route('monitoreo.index', ['estatus' => 'VIGENTE']) }}" 
-           class="btn {{ request('estatus') == 'VIGENTE' ? 'btn-primary' : 'btn-outline-primary' }}">VIGENTE</a>
-        <a href="{{ route('monitoreo.index', ['estatus' => 'PROXIMAMENTE']) }}" 
-           class="btn {{ request('estatus') == 'PROXIMAMENTE' ? 'btn-primary' : 'btn-outline-primary' }}">PROXIMAMENTE</a>
-        <a href="{{ route('monitoreo.index', ['estatus' => 'CADUCADA']) }}" 
-           class="btn {{ request('estatus') == 'CADUCADA' ? 'btn-primary' : 'btn-outline-primary' }}">CADUCADA</a>
-        <a href="{{ route('monitoreo.index', ['estatus' => 'TODAS']) }}" 
-           class="btn {{ request('estatus') == 'TODAS' ? 'btn-primary' : 'btn-outline-primary' }}">TODAS</a>
-    </div>
+   <div class="d-flex justify-content-end gap-2 mb-4">
+    <a href="{{ route('monitoreo.index', ['estatus' => 'VIGENTE']) }}" 
+       class="boton-proyecto {{ request('estatus') == 'VIGENTE' ? 'activo' : '' }}">VIGENTE</a>
+    <a href="{{ route('monitoreo.index', ['estatus' => 'PROXIMAMENTE']) }}" 
+       class="boton-proyecto {{ request('estatus') == 'PROXIMAMENTE' ? 'activo' : '' }}">PROXIMAMENTE</a>
+    <a href="{{ route('monitoreo.index', ['estatus' => 'CADUCADA']) }}" 
+       class="boton-proyecto {{ request('estatus') == 'CADUCADA' ? 'activo' : '' }}">CADUCADA</a>
+    <a href="{{ route('monitoreo.index', ['estatus' => 'TODAS']) }}" 
+       class="boton-proyecto {{ request('estatus') == 'TODAS' ? 'activo' : '' }}">TODAS</a>
+</div>
     
     <div class="card">
         <div class="card-body">
@@ -115,6 +144,10 @@
                             <span class="cat">{{ $convocatoria->categoria->Descripcion ?? 'Sin categoría' }}</span>
 
                             <span class="badge-estatus {{ $badgeClass }}">{{ $estatus }}</span>
+                           <!-- Icono a la derecha -->
+                           <div class="icono-toggle" id="toggle-icon-{{ $loop->index }}">
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
                         </div>
                     </div>
                     
@@ -171,10 +204,6 @@
 </div>
 @endsection
 </body>
-<script>
-function toggleProyectos(index) {
-    const container = document.getElementById(`proyectos-${index}`);
-    container.classList.toggle('d-none');
-}
-</script>
+
+
 </html>

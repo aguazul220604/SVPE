@@ -1,7 +1,12 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit-proyecto</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-@section('content')
-<style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -17,10 +22,11 @@
             font-weight: bold;
             margin-bottom: 15px;
             font-size: 1.2em;
-            color: #333;
-            border-bottom: 1px solid #eee;
+           color: #f73878;
+            border-bottom: 2px solid #dee2e6;
             padding-bottom: 5px;
         }
+      
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -65,9 +71,77 @@
             background-color: #6c757d;
             color: white;
         }
+        .boton-proyecto{
+        border: 1px solid #f73878;
+         color: #f73878;
+        background-color: transparent;
+        border-radius: 8px;
+        padding: 7px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+         }
+
+        .boton-proyecto:hover {
+        background-color: #f73878;
+        color: white;
+        text-decoration: none;
+        }
+        .btn-cancelar{
+        color: #ffffff;
+        background-color: #6C757D;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        }
+         .btn-cancelar:hover {
+        background-color: #5f6365;
+        color: white;
+        text-decoration: none;
+        }
+         .section-card {
+        background: #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+     .guardar{
+        color: #ffffff;
+        background-color: #f73878;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        border: none;
+
+        }
+         .guardar:hover {
+        background-color: #db386e;
+        color: white;
+        text-decoration: none;
+        }
     </style>
-<div class="container">
-    <h1>Editar proyecto</h1>
+</head>
+<body>
+    @extends('layouts.app')
+
+    @section('content')
+<div class="section-card">
+
+    <h2>Editar proyecto</h2>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -220,9 +294,101 @@
         </div>
 
         <div class="actions">
-            <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
+            <a href="{{ route('proyectos.index') }}" class="btn-cancelar">Cancelar</a>
+            <button type="submit" class="guardar">Actualizar Proyecto</button>
+            <a href="#" class="boton-proyecto" id="generarPdfBtn">Generar PDF</a>
+
         </div>
     </form>
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('generarPdfBtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const titulo = document.querySelector('input[name="Nombre"]')?.value.trim() || 'Proyecto sin título';
+
+        const fecha = new Date().toLocaleDateString();
+
+        // Encabezado
+        let y = 15;
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.text("Documentación del Proyecto", 10, y);
+        y += 10;
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("Título: " + titulo, 10, y);
+        y += 7;
+
+        doc.text("Fecha de generación: " + fecha, 10, y);
+        doc.line(10, y + 2, 200, y + 2); // línea divisoria
+        y += 12;
+
+        const campos = [
+            { label: "Nombre del proyecto", name: "Nombre" },
+            { label: "Propuesta de valor", name: "PropValor" },
+            { label: "Introducción", name: "Introduccion" },
+            { label: "Justificación", name: "Justificacion" },
+            { label: "Descripción", name: "Descripcion" },
+            { label: "Objetivos Generales", name: "ObjsGrals" },
+            { label: "Objetivos Específicos", name: "ObjsEspec" },
+            { label: "Estado del arte", name: "EdoArte" },
+            { label: "Fortalezas", name: "Fortalezas" },
+            { label: "Oportunidades", name: "Oportunidades" },
+            { label: "Debilidades", name: "Debilidades" },
+            { label: "Amenazas", name: "Amenazas" },
+            { label: "Metodologías", name: "Metodologias" },
+            { label: "Costos", name: "Costos" },
+            { label: "Resultados", name: "Resultados" },
+            { label: "Referencias", name: "Referencias" }
+        ];
+
+      
+        campos.forEach(campo => {
+            const valor = document.querySelector(`[name="${campo.name}"]`)?.value.trim() || "Sin contenido";
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text(campo.label + ":", 10, y);
+            y += 7;
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            const lines = doc.splitTextToSize(valor, 180);
+            doc.text(lines, 15, y);
+            y += lines.length * 7 + 5;
+
+            // Saltar de página si se pasa del límite
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+        });
+
+        // Pie de página con numeración
+        const totalPages = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            doc.setPage(i);
+            doc.setFontSize(10);
+            doc.text(`Página ${i} de ${totalPages}`, 180, 290);
+        }
+
+      
+        //doc.save("proyecto.pdf");
+        const nombreArchivo = titulo.replace(/\s+/g, '_') + ".pdf"; 
+        doc.save(nombreArchivo);
+
+    });
+});
+</script>
 </div>
 @endsection
+</body>
+</html>

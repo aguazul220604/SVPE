@@ -45,7 +45,7 @@ public function index(Request $request)
         $lideres = TblUsuario::where('IdRol', 2)->get();
         $categorias = Categoria::where('Estatus', 1)->get();
         $estatus = Estatus::where('Catalogo', 'Proyectos')->get();
-        $asesores = TblUsuario::where('IdRol', 5)->get();
+        $asesores = TblUsuario::where('IdRol', 6)->get();
 
         return view('proyectos.create', compact('lideres', 'categorias', 'estatus', 'asesores'));
     }
@@ -62,7 +62,7 @@ public function index(Request $request)
         $lideres = TblUsuario::where('IdRol', 2)->get();
         $categorias = Categoria::where('Estatus', 1)->get();
         $estatus = Estatus::where('Catalogo', 'Proyectos')->get();
-        $asesores = TblUsuario::where('IdRol', 5)->get();
+        $asesores = TblUsuario::where('IdRol', 6)->get();
 
         return view('proyectos.edit', compact('proyecto', 'lideres', 'categorias', 'estatus', 'asesores'));
     }
@@ -82,8 +82,13 @@ public function index(Request $request)
         DB::beginTransaction();
 
         try {
+               $pdfPath = null;
             // Procesar el archivo PDF
-            $pdfPath = $request->file('pdf')->store('proyectos', 'public');
+            // $pdfPath = $request->file('pdf')->store('proyectos', 'public');
+             if ($request->hasFile('pdf')) {
+                 $pdfPath = $request->file('pdf')->store('proyectos', 'public');
+                }
+
 
             // Crear la descripción del proyecto
             $descripcion = DescripcionProyecto::create([

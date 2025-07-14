@@ -1,15 +1,46 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver-proyecto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-@section('content')
-<style>
+    <style>
     body {
         font-family: 'Poppins', sans-serif;
     }
+      .boton-proyecto{
+    border: 1px solid #f73878;
+    color: #f73878;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 10px 21px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 20px;
 
+    }
+
+  .boton-proyecto:hover {
+        background-color: #f73878;
+        color: white;
+        text-decoration: none;
+    }
+    .section {
+        background: #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
     .section-card {
         background: #ffffff;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        border-left: 5px solid #0d6efd;
+        border-left: 5px solid #f73878;
         border-radius: 10px;
         padding: 1.5rem;
         margin-bottom: 2rem;
@@ -20,7 +51,7 @@
         padding-bottom: 0.5rem;
         margin-bottom: 1rem;
         font-weight: 600;
-        color: #0d6efd;
+        color: #f73878;
     }
 
     .btn-custom-primary {
@@ -49,13 +80,39 @@
         width: 1em;
         margin-left: -1em;
     }
+     .btn-cancelar{
+        color: #ffffff;
+        background-color: #6C757D;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        }
+         .btn-cancelar:hover {
+        background-color: #5f6365;
+        color: white;
+        text-decoration: none;
+        }
 </style>
+</head>
+<body>
+    @extends('layouts.app')
 
-<div class="container py-4">
-    <h1 class="mb-4 section-title">Detalles del Proyecto</h1>
+@section('content')
+
+        <a href="{{ route('proyectos.index') }}" class="btn btn-custom-secondary">
+           <i class="fas fa-arrow-left me-2"></i>
+        </a>
+
+<div class="section">
+    <h2 class="mb-4 ">Detalles del Proyecto</h2>
 
     <div class="section-card">
-        <h2 class="h4 mb-3 text-primary">{{ $proyecto->descripcion->Nombre }}</h2>
+        <h2 class="h4 mb-3 ">{{ $proyecto->descripcion->Nombre }}</h2>
 
         <div class="row mb-4">
             <div class="col-md-6">
@@ -140,8 +197,11 @@
     @endif
 
     <div class="d-flex justify-content-end gap-2">
-        <a href="{{ route('proyectos.edit', $proyecto->IdProyecto) }}" class="btn btn-custom-primary">Editar</a>
-        <a href="{{ route('proyectos.index') }}" class="btn btn-custom-secondary">Volver</a>
+         <a href="{{ route('proyectos.index') }}" class="btn-cancelar">Cancelar</a>
+        <a href="{{ route('proyectos.edit', $proyecto->IdProyecto) }}" class="boton-proyecto">Editar</a>
     </div>
 </div>
 @endsection
+
+</body>
+</html>

@@ -18,14 +18,15 @@
             padding: 15px;
             border-radius: 5px;
         }
-        .section-title {
+         .section-title {
             font-weight: bold;
             margin-bottom: 15px;
             font-size: 1.2em;
-            color: #333;
-            border-bottom: 1px solid #eee;
+           color: #f73878;
+            border-bottom: 2px solid #dee2e6;
             padding-bottom: 5px;
         }
+      
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -89,14 +90,68 @@
         .btn-outline:hover {
             background-color: #f2f2f2;
         }
+         .guardar{
+        color: #ffffff;
+        background-color: #f73878;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        border: none;
 
+        }
+         .guardar:hover {
+        background-color: #db386e;
+        color: white;
+        text-decoration: none;
+        }
+         .btn-cancelar{
+        color: #ffffff;
+        background-color: #6C757D;
+        border-radius: 8px;
+        padding: 11px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        }
+         .btn-cancelar:hover {
+        background-color: #5f6365;
+        color: white;
+        text-decoration: none;
+        }
+        .boton-proyecto{
+        border: 1px solid #f73878;
+         color: #f73878;
+        background-color: transparent;
+        border-radius: 8px;
+        padding: 11px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+         }
+
+        .boton-proyecto:hover {
+        background-color: #f73878;
+        color: white;
+        text-decoration: none;
+        }
     </style>
 </head>
 <body>
 @extends('layouts.app')
 
 @section('content')
-<h1>Nuevo proyecto</h1>
+<h2>Nuevo proyecto</h2>
 
 <form method="POST" action="{{ route('proyectos.store') }}" enctype="multipart/form-data">
     @csrf
@@ -224,39 +279,13 @@
     </div>
 
     <div class="actions">
-        <a href="{{ route('proyectos.index') }}" class="btn btn-secondary">Cancelar</a>
-        <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
-        <a href="#" class="btn btn-outline" id="generarPdfBtn">Generar PDF</a>
+        <a href="{{ route('proyectos.index') }}" class="btn-cancelar">Cancelar</a>
+        <button type="submit" class="guardar">Guardar Proyecto</button>
+        <a href="#" class="boton-proyecto" id="generarPdfBtn">Generar PDF</a>
 
     </div>
 </form>
-@if (session('success'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: "{{ session('success') }}",
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        });
-    </script>
-@endif
 
-@if (session('error'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "{{ session('error') }}",
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Cerrar'
-            });
-        });
-    </script>
-    @endif
 <!-- <script src="{{ asset('js/pdf.js') }}"></script> -->
 <script>
    document.addEventListener('DOMContentLoaded', function () {
@@ -266,10 +295,11 @@
     btn.addEventListener('click', function (e) {
         e.preventDefault();
 
-        const { jsPDF } = window.jspdf;
+        const jsPDF = window.jspdf.jsPDF;
         const doc = new jsPDF();
 
         const titulo = document.querySelector('input[name="Nombre"]')?.value.trim() || 'Proyecto sin título';
+
         const fecha = new Date().toLocaleDateString();
 
         // Encabezado
@@ -338,7 +368,10 @@
         }
 
       
-        doc.save("proyecto.pdf");
+        //doc.save("proyecto.pdf");
+        const nombreArchivo = titulo.replace(/\s+/g, '_') + ".pdf"; 
+        doc.save(nombreArchivo);
+
     });
 });
 </script>

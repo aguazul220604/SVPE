@@ -104,11 +104,12 @@
             </div>
         </div>
 
-        <div class="logout-container">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
+       <div class="logout-container">
+            <form method="POST" action="{{ route('logout') }}"
+             onsubmit="return confirm('¿Estás seguro de que deseas cerrar sesión?')">
+                 @csrf
                 <button type="submit" class="btn btn-danger btn-sm">Cerrar Sesión</button>
-            </form>
+             </form>
         </div>
     </div>
 
@@ -118,4 +119,11 @@
     </div>
 
 </body>
+<script>
+    document.getElementById('logoutForm').addEventListener('submit', function(e) {
+        if (!confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+            e.preventDefault(); // Detiene el envío si se cancela
+        }
+    });
+</script>
 </html>
