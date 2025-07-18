@@ -133,7 +133,58 @@
         color: white;
         text-decoration: none;
         }
-    </style>
+     
+/* Fondo oscuro */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+/* Mostrar el modal si está anclado */
+.modal:target {
+    display: block;
+}
+
+/* Contenido del modal */
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 90%;
+    height: 80%;
+    max-width: 1000px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Cerrar */
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    z-index: 10000;
+}
+
+.close:hover {
+    color: red;
+    text-decoration: none;
+}
+</style>
+
+ 
 </head>
 <body>
     @extends('layouts.app')
@@ -142,8 +193,28 @@
 <div class="section-card">
 
     <h2>Editar proyecto</h2>
+        @if (session('success'))
+            <div style="padding: 10px; background-color: #d4edda; color: #155724; border-radius: 4px; margin-bottom: 20px;">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if($errors->any())
+        @if (session('error'))
+            <div style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 4px; margin-bottom: 20px;">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div style="padding: 10px; background-color: #fff3cd; color: #856404; border-radius: 4px; margin-bottom: 20px;">
+                <ul style="margin: 0; padding-left: 20px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    <!-- @if($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach($errors->all() as $error)
@@ -151,13 +222,13 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif -->
 
     <form method="POST" action="{{ route('proyectos.update', $proyecto->IdProyecto) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="section">
-            <div class="section-title">Información básica</div>
+            <div class="section-title">Información específica</div>
             <div class="grid-2">
                 <label>
                     Usuario líder
@@ -219,7 +290,7 @@
                 </label>
             </div>
 
-            <div class="grid-3">
+            <div class="grid-2">
                 <label>
                     Introducción
                     <textarea name="Introduccion">{{ $proyecto->descripcion->Introduccion ?? '' }}</textarea>
@@ -277,18 +348,31 @@
                     Referencias
                     <textarea name="Referencias">{{ $proyecto->descripcion->Referencias ?? '' }}</textarea>
                 </label>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <label>
-                    Documento PDF
-                    <input type="file" name="pdf" accept=".pdf">
-                    <small>Sube el documento completo del proyecto en formato PDF</small>
-                    @if(isset($proyecto->descripcion->pdf_path))
-                        <div style="margin-top:8px;">
-                            <a href="{{ asset('storage/' . $proyecto->descripcion->pdf_path) }}" target="_blank">Ver PDF actual</a>
-                        </div>
+                <label class="display-flex content">
+                    PDF
+                    <input type="text" name="Nombre" value="{{ $proyecto->descripcion->Nombre ?? '' }}" required>
+                    <br><br>
+
+                   @if(!empty($proyecto->descripcion->Pdf))
+                        <a href="{{ asset('storage/' . $proyecto->descripcion->Pdf) }}" 
+                        target="_blank" 
+                        class="btn btn-secondary float-end">
+                        Ver PDF
+                        </a>
+                    @else
+                        <span class="text-muted">No hay archivo PDF</span>
                     @endif
+            </label>
+            </div>
+            <!-- se mostrarar la previsuaiacion de archivo  -->
+            <div id="pdfPreview" style="margin-top: 15px; display: none;">
+                <p><strong>Vista previa del PDF:</strong></p>
+                <iframe id="pdfViewer" width="100%" height="400px"></iframe>
+            </div>
+            <div style="margin-top: 20px;">
+               <label>
+                    Actualizar documento PDF
+                    <input type="file" name="pdf" accept=".pdf" id="pdfInput" >
                 </label>
             </div>
         </div>
@@ -387,6 +471,18 @@
 
     });
 });
+</script>
+<script>
+    document.getElementById('pdfInput').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file && file.type === "application/pdf") {
+            const fileURL = URL.createObjectURL(file);
+            document.getElementById('pdfViewer').src = fileURL;
+            document.getElementById('pdfPreview').style.display = 'block';
+        } else {
+            document.getElementById('pdfPreview').style.display = 'none';
+        }
+    });
 </script>
 </div>
 @endsection

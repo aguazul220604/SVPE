@@ -17,7 +17,7 @@
     text-transform: uppercase;
     transition: all 0.3s ease;
     text-decoration: none;
-    margin-right: 20px;
+    /* margin-right: 20px; */
 
     }
 
@@ -67,11 +67,11 @@
 
     }
 
-    .boton-eliminar:hover {
+     .boton-eliminar:hover {
         background-color: #5f6365;
         color: white;
         text-decoration: none;
-    }
+       }
      .nuevo{
         color: #ffffff;
         background-color: #f73878;
@@ -91,6 +91,67 @@
         color: white;
         text-decoration: none;
         }
+                .paginacion-personalizada nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .paginacion-personalizada .pagination {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 12px; /* Separación entre elementos */
+        }
+
+        .paginacion-personalizada .pagination li {
+            display: inline-block;
+        }
+
+        .paginacion-personalizada .pagination li a,
+        .paginacion-personalizada .pagination li span {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;   /* Tamaño del botón */
+            height: 40px;
+            border-radius: 50%;  /* Hace los botones circulares */
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Hover */
+        .paginacion-personalizada .pagination li a:hover {
+            background-color: #f73878;
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Página actual */
+        .paginacion-personalizada .pagination li.active span {
+            background-color: #f73878;
+            color: white;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Opcional: Deshabilitados */
+        .paginacion-personalizada .pagination li.disabled span,
+        .paginacion-personalizada .pagination li.disabled a {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        table {
+            width: 100%;
+        }
+
+
     </style>
 </head>
 <body>
@@ -121,6 +182,8 @@
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Estatus</th>
+                <th>Fecha alta</th>
+                   <th class="text-center"></th> <!-- NUEVO -->
             </tr>
         </thead>
         <tbody>
@@ -129,8 +192,10 @@
                 <td>{{ $proyecto->descripcion->Nombre ?? 'Sin nombre' }}</td>
                 <td>{{ $proyecto->categoria->Descripcion ?? 'Sin categoría' }}</td>
                 <td>{{ $proyecto->descripcion->estatus->Descripcion ?? 'Sin estatus' }}</td>
-                <td class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('proyectos.show', $proyecto->IdProyecto) }}" class="boton-proyecto">Ver</a>
+                <td>{{$proyecto->FechaAlta}}</td>
+                <!-- <td class="d-flex flex-wrap justify-content-center gap-2 w-100"> -->
+                <td class="d-flex flex-wrap justify-content-between gap-2 w-100">
+                <a href="{{ route('proyectos.show', $proyecto->IdProyecto) }}" class="boton-proyecto">Ver</a>
                     <a href="{{ route('proyectos.edit', $proyecto->IdProyecto) }}" class="boton-proyecto">Editar</a>
                   <form action="{{ route('proyectos.destroy', $proyecto->IdProyecto) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este proyecto?')" style="display:inline;">
                         @csrf
@@ -146,8 +211,11 @@
             @endforelse
         </tbody>
     </table>
+    <div class="paginacion-personalizada">
+        <!-- {{ $proyectos->links() }} -->
+          {{ $proyectos->links('vendor.pagination.circular') }}
     </div>
-
+    </div>
 </div>
 
 @endsection

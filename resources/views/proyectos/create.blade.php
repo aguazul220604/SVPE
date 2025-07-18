@@ -152,11 +152,32 @@
 
 @section('content')
 <h2>Nuevo proyecto</h2>
+@if (session('success'))
+    <div style="padding: 10px; background-color: #d4edda; color: #155724; border-radius: 4px; margin-bottom: 20px;">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 4px; margin-bottom: 20px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div style="padding: 10px; background-color: #fff3cd; color: #856404; border-radius: 4px; margin-bottom: 20px;">
+        <ul style="margin: 0; padding-left: 20px;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <form method="POST" action="{{ route('proyectos.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="section">
-        <div class="section-title">Información básica</div>
+        <div class="section-title">Información específica</div>
         <div class="grid-2">
             <label>
                 Usuario líder
@@ -210,7 +231,7 @@
             </label>
         </div>
 
-        <div class="grid-3">
+        <div class="grid-2">
             <label>
                 Introducción
                 <textarea name="Introduccion"></textarea>

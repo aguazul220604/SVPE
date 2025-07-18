@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estatus extends Model
 {
-    protected $table = 'CatEstatus';
+    protected $table = 'catestatus';
     protected $primaryKey = 'IdStatus';
     public $timestamps = false;
 

@@ -104,10 +104,6 @@
 
 @section('content')
 
-        <a href="{{ route('proyectos.index') }}" class="btn btn-custom-secondary">
-           <i class="fas fa-arrow-left me-2"></i>
-        </a>
-
 <div class="section">
     <h2 class="mb-4 ">Detalles del Proyecto</h2>
 
@@ -116,7 +112,7 @@
 
         <div class="row mb-4">
             <div class="col-md-6">
-                <h5 class="mb-3 text-muted">Información Básica</h5>
+                <!-- <h5 class="mb-3 text-muted">Información específica</h5> -->
                 <p><strong>Líder:</strong> {{ $proyecto->lider->Nombre }}</p>
                 <p><strong>Categoría:</strong> {{ $proyecto->categoria->Descripcion }}</p>
                 <p><strong>Estatus:</strong> {{ $proyecto->descripcion->estatus->Descripcion }}</p>
@@ -129,61 +125,101 @@
         </div>
     </div>
 
-    <div class="section-card">
+   <div class="section-card">
         <h5 class="section-title">Descripción Detallada</h5>
+
+        @if(!empty($proyecto->descripcion->Introduccion))
         <div class="mb-3">
             <strong>Introducción:</strong>
             <p>{{ $proyecto->descripcion->Introduccion }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Justificacion))
         <div class="mb-3">
             <strong>Justificación:</strong>
             <p>{{ $proyecto->descripcion->Justificacion }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->ObjsGrals))
         <div class="mb-3">
             <strong>Objetivos Generales:</strong>
             <p>{{ $proyecto->descripcion->ObjsGrals }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->ObjsEspec))
         <div class="mb-3">
             <strong>Objetivos Específicos:</strong>
             <p>{{ $proyecto->descripcion->ObjsEspec }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->EdoArte))
         <div class="mb-3">
             <strong>Estado del arte:</strong>
             <p>{{ $proyecto->descripcion->EdoArte }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Fortalezas))
         <div class="mb-3">
             <strong>Fortalezas:</strong>
             <p>{{ $proyecto->descripcion->Fortalezas }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Oportunidades))
         <div class="mb-3">
             <strong>Oportunidades:</strong>
             <p>{{ $proyecto->descripcion->Oportunidades }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Debilidades))
         <div class="mb-3">
             <strong>Debilidades:</strong>
             <p>{{ $proyecto->descripcion->Debilidades }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Amenazas))
         <div class="mb-3">
             <strong>Amenazas:</strong>
             <p>{{ $proyecto->descripcion->Amenazas }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Metodologias))
         <div class="mb-3">
             <strong>Metodologías:</strong>
             <p>{{ $proyecto->descripcion->Metodologias }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Costos))
         <div class="mb-3">
             <strong>Costos:</strong>
             <p>{{ $proyecto->descripcion->Costos }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Resultados))
         <div class="mb-3">
             <strong>Resultados:</strong>
             <p>{{ $proyecto->descripcion->Resultados }}</p>
         </div>
+        @endif
+
+        @if(!empty($proyecto->descripcion->Referencias))
         <div class="mb-3">
-            <strong> Referencias:</strong>
+            <strong>Referencias:</strong>
             <p>{{ $proyecto->descripcion->Referencias }}</p>
         </div>
+        @endif
     </div>
+
 
     @if($proyecto->integrantes->count() > 0)
     <div class="section-card">

@@ -21,7 +21,7 @@
     </div>
 
     <div class="section">
-        <h2>Información Básica</h2>
+        <h2>Información específica</h2>
         <p><span class="info-label">Nombre:</span> {{ $proyecto->descripcion->Nombre }}</p>
         <p><span class="info-label">Líder:</span> {{ $proyecto->lider->Nombre }} ({{ $proyecto->lider->Matricula }})</p>
         <p><span class="info-label">Categoría:</span> {{ $proyecto->categoria->Descripcion }}</p>

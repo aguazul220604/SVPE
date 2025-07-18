@@ -34,8 +34,9 @@ public function index(Request $request)
                 });
             });
         })
-        ->get();
-
+        // ->get();
+        ->paginate(5);
+        // ->appends(['buscar' => $buscar]);
     return view('proyectos.index', compact('proyectos'));
 }
 
@@ -136,8 +137,8 @@ public function index(Request $request)
 {
     $request->validate([
         'IdUsuarioLider' => 'required|exists:Tblusuario,IdUsuario',
-        'IdCategoria' => 'required|exists:Catcategoria,IdCategoria',
-        'IdStatus' => 'required|exists:Catestatus,IdStatus',
+        'IdCategoria' => 'required|exists:catcategoria,IdCategoria',
+        'IdStatus' => 'required|exists:catestatus,IdStatus',
         'Nombre' => 'required|string|max:255',
         'PropValor' => 'required|string|max:255',
         'pdf' => 'nullable|file|mimes:pdf|max:2048',
