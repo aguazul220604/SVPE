@@ -1,6 +1,106 @@
-# SVPE
+<h1>Entrepreneurial Projects Linkage System (SVPE)</h1>
 
-Repositorio exclusivo para codigo del proyecto.
+<section>
+  <h2>🎯 General Description</h2>
+  <p>
+    The <strong>Entrepreneurial Projects Linkage System (SVPE)</strong> was developed for the 
+    <strong>Polytechnic University of Tulancingo (UPT)</strong> in collaboration with the 
+    <strong>Hidalgo Computing Network (REHICO)</strong>. Its purpose is to link entrepreneurial projects 
+    from the university’s student and research community with calls for proposals that have social, 
+    ecological, or technological impact, while providing tools for monitoring and managing the required documentation.
+  </p>
+</section>
+
+<section>
+  <h2>🧭 Role and Methodology</h2>
+  <p>
+    I led the project as <strong>Project Manager</strong> and development team coordinator, applying 
+    the <strong>PMBOK</strong> project management methodology to ensure proper planning, execution, and 
+    project tracking. My responsibilities included technical direction, task coordination, and deliverable validation.
+  </p>
+</section>
+
+<section>
+  <h2>🤝 Inter-University Collaboration</h2>
+  <p>
+    SVPE was a collaborative project developed among several institutions.  
+    The <strong>Technological University of the Mezquital Valley (UTVM)</strong> was responsible for 
+    developing the <strong>Projects</strong> and <strong>Monitoring</strong> modules, while other participating 
+    universities worked on complementary modules such as <em>Users, Calls, Linkage,</em> and <em>Reports</em>.
+  </p>
+</section>
+
+<section>
+  <h2>⚙️ Technologies Used</h2>
+  <p>
+    The system was initially developed in <strong>.NET</strong> and <strong>Microsoft SQL Server</strong>, 
+    and later migrated to <strong>Laravel</strong> with <strong>MySQL</strong> to achieve a more flexible 
+    and scalable architecture.
+  </p>
+  <div>
+    <span class="tag">Laravel</span>
+    <span class="tag">MySQL</span>
+    <span class="tag">PHP</span>
+    <span class="tag">HTML5</span>
+    <span class="tag">CSS3</span>
+    <span class="tag">PMBOK</span>
+  </div>
+</section>
+
+<section>
+  <h2>🧩 Modules Developed (UTVM)</h2>
+
+  <h3>📁 Projects</h3>
+  <p>
+    Allows management of projects registered in the university incubator.  
+    Its main features include:
+  </p>
+  <ul>
+    <li>Creation, editing, and deletion of projects.</li>
+    <li>Viewing detailed project information in a dynamic table.</li>
+    <li>Exporting project documentation to PDF format.</li>
+  </ul>
+  <div class="img-placeholder">
+    <img src="assets/img1.png" alt="">
+    <img src="assets/img2.png" alt="">
+    <img src="assets/img3.png" alt="">
+    <img src="assets/img4.png" alt="">
+    <img src="assets/img5.png" alt="">
+  </div>
+
+  <h3>📊 Monitoring</h3>
+  <p>
+    Provides tools to analyze, query, and update the status of linked projects.  
+    Its main features include:
+  </p>
+  <ul>
+    <li>Viewing project details and associated calls for proposals.</li>
+    <li>Status updates and advanced filtering options.</li>
+    <li>Visual monitoring of project progress.</li>
+  </ul>
+  <div class="img-placeholder">
+    <img src="assets/img6.png" alt="">
+    <img src="assets/img7.png" alt="">
+    <img src="assets/img8.png" alt="">
+    <img src="assets/img9.png" alt="">
+    <img src="assets/img10.png" alt="">
+  </div>
+</section>
+
+<section>
+  <h2>🚀 System Objective</h2>
+  <p>
+    SVPE aims to strengthen the connection between the academic community and impactful calls for proposals, 
+    promoting innovation and entrepreneurship through a reliable, collaborative, and centralized digital platform.
+  </p>
+</section>
+
+<footer>
+  <p>Developed for the <strong>Hidalgo Computing Network (REHICO)</strong> — Polytechnic University of Tulancingo.</p>
+  <p>UTVM module coordination | Project leadership: <strong>Ángel García Aguazul</strong></p>
+</footer>
+
+
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
