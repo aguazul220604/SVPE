@@ -74,7 +74,7 @@ return [
 'providers' => [
     'users' => [
         'driver' => 'eloquent',
-        'model' => App\Models\TblUsuario::class, 
+        'model' => App\Models\Usuario::class, 
     ],
 ],
 

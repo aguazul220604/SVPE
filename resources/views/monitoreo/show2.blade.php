@@ -80,7 +80,7 @@
         width: 1em;
         margin-left: -1em;
     }
-     .btn-cancelar{
+     .btn-regresar{
         color: #ffffff;
         background-color: #6C757D;
         border-radius: 8px;
@@ -92,7 +92,7 @@
         text-decoration: none;
         margin-right: 20px;
         }
-         .btn-cancelar:hover {
+         .btn-regresar:hover {
         background-color: #5f6365;
         color: white;
         text-decoration: none;
@@ -100,7 +100,7 @@
 </style>
 </head>
 <body>
-    @extends('layouts.app')
+   @extends('layouts.app')
 
 @section('content')
 
@@ -108,7 +108,7 @@
     <h2 class="mb-4 ">Detalles del Proyecto</h2>
 
     <div class="section-card">
-        <h2 class="h4 mb-3 ">{{ $proyecto->descripcion->Nombre }}</h2>
+        <h2 class="h4 mb-3 ">{{ $proyecto->descripcion->nombre }}</h2>
 
         <div class="row mb-4">
             <div class="col-md-6">
@@ -131,6 +131,7 @@
                 <p><strong>Estatus:</strong>{{ $proyecto->descripcion->estado->nombre ?? 'Sin estatus' }}</p>
                 <p><strong>Fecha de creación:</strong> {{ $proyecto->fecha_registro ?? 'No asignado' }}</p>
                 <label>
+               <label>
                 <strong>Participantes seleccionados:</strong>
                 <div id="previewParticipantes">
                     <ul class="listado" id="listaParticipantes">
@@ -249,9 +250,10 @@
         @endif
     </div>
     <div class="d-flex justify-content-end gap-2">
-         <a href="{{ route('proyectos.index') }}" class="btn-cancelar">Cancelar</a>
-        <a href="{{ route('proyectos.edit', $proyecto->idProyecto) }}" class="boton-proyecto">Editar</a>
-    </div>
+    <a href="{{ session('previous_url') ?? route('monitoreo.index') }}" class="btn-regresar">
+        Regresar
+    </a>
+</div
 </div>
 @endsection
 

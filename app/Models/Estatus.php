@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estatus extends Model
 {
-    protected $table = 'catestatus';
-    protected $primaryKey = 'IdStatus';
+    protected $table = 'estados_proyectos';
+    protected $primaryKey = 'idEstado';
     public $timestamps = false;
 
-    protected $fillable = ['Descripcion', 'Estatus', 'Catalogo'];
+    protected $fillable = ['nombre', 'descripcion'];
 }

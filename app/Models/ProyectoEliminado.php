@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProyectoEliminado extends Model
 {
-    protected $table = 'TblProyectosEliminados';
-    protected $primaryKey = 'IdProyectoEliminado';
+    protected $table = 'proyectos_eliminados';
+    protected $primaryKey = 'IdProyecto_Eliminado';
     public $timestamps = false;
 
     protected $fillable = [
-        'IdProyecto',
-        'IdUsuario',
-        'FechaElimina',
+        'idProyecto',
+        'idUsuario',
+        'fecha_elimina',
     ];
 }

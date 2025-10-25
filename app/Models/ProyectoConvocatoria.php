@@ -6,34 +6,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProyectoConvocatoria extends Model
 {
-    protected $table = 'TblProyectoConvocatoria';
-    protected $primaryKey = 'IdProyectoConvocatoria';
+    protected $table = 'proyectos_convocatorias';
+    protected $primaryKey = 'IdProyecto_Convocatoria';
     public $timestamps = false;
 
     protected $fillable = [
-        'IdProyecto',
-        'IdConvocatoria',
-        'IdUsuarioPostula',
-        'Participo',
-        'EstatusConvocatoria',
-        'Estatus',
-        'FechaAlta',
-        'FechaMod',
-        'IdUsuarioMod',
+        'idProyecto',
+        'idConvocatoria',
+        'idUsuario_Postula',
+        'participo',
+        'estatus_convocatoria',
+        'estatus',
+        'fecha_alta',
+        'fecha_mod',
+        'idUsuario_Mod',
     ];
 
     public function proyecto()
     {
-        return $this->belongsTo(Proyecto::class, 'IdProyecto');
+        return $this->belongsTo(Proyecto::class, 'idProyecto');
     }
 
     public function convocatoria()
     {
-        return $this->belongsTo(Convocatoria::class, 'IdConvocatoria');
+        return $this->belongsTo(Convocatoria::class, 'idConvocatoria');
     }
 
     public function usuarioPostula()
     {
-        return $this->belongsTo(Usuario::class, 'IdUsuarioPostula', 'IdUsuario');
+        return $this->belongsTo(Usuario::class, 'idUsuario_Postula', 'idUsuario');
     }
 }

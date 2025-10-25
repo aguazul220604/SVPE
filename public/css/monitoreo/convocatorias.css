@@ -1,0 +1,490 @@
+:root {
+    --primary-color: #f73878;
+    --secondary-color: #6c757d;
+
+    /* Colores para estados de convocatorias */
+    --vigente-color: #28a745; /* Verde (igual que aprobado) */
+    --proximamente-color: #fd7e14; /* Naranja */
+    --caducada-color: #dc3545; /* Rojo (igual que rechazado) */
+
+    /* Colores para estados de proyectos */
+    --aprobado-color: #28a745; /* Verde */
+    --rechazado-color: #dc3545; /* Rojo */
+    --inicio-color: #17a2b8; /* Azul turquesa */
+    --desarrollo-color: #6f42c1; /* Morado */
+    --concluido-color: #ffc107; /* Amarillo */
+
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 100%;
+    padding: 20px;
+}
+
+/* Header styles */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.page-title {
+    color: var(--dark-color);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.page-title i {
+    color: var(--primary-color);
+    margin-right: 12px;
+    font-size: 1.5rem;
+}
+
+/* Button styles */
+.btn-volver {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-volver i {
+    margin-right: 8px;
+}
+
+.btn-volver:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(247, 56, 120, 0.3);
+    background-color: #e5316f;
+    color: white;
+}
+
+/* Filter buttons */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+/* Estilos base para botones de filtro */
+.filter-btn {
+    border: 2px solid;
+    background-color: transparent;
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.filter-btn i {
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+/* Botón TODAS */
+.filter-btn-todas {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.filter-btn-todas:hover,
+.filter-btn-todas.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Botón VIGENTE */
+.filter-btn-vigente {
+    border-color: var(--vigente-color);
+    color: var(--vigente-color);
+}
+.filter-btn-vigente:hover,
+.filter-btn-vigente.active {
+    background-color: var(--vigente-color);
+    color: white;
+}
+
+/* Botón PRÓXIMAMENTE */
+.filter-btn-proximamente {
+    border-color: var(--proximamente-color);
+    color: var(--proximamente-color);
+}
+.filter-btn-proximamente:hover,
+.filter-btn-proximamente.active {
+    background-color: var(--proximamente-color);
+    color: white;
+}
+
+/* Botón CADUCADA */
+.filter-btn-caducada {
+    border-color: var(--caducada-color);
+    color: var(--caducada-color);
+}
+.filter-btn-caducada:hover,
+.filter-btn-caducada.active {
+    background-color: var(--caducada-color);
+    color: white;
+}
+
+/* Efectos comunes para todos los botones */
+.filter-btn:hover,
+.filter-btn.active {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Main card container */
+.card-contenedor {
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: none;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.card-body {
+    padding: 0;
+}
+
+/* Empty state */
+.alert-vacia {
+    border-radius: 16px;
+    text-align: center;
+    padding: 40px 20px;
+    margin: 20px;
+    background-color: white;
+}
+
+.alert-vacia i {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.alert-vacia h4 {
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+/* Convocatoria cards */
+.convocatoria-container {
+    padding: 20px;
+}
+
+.proyecto-card {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.proyecto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Convocatoria header */
+.convocatoria-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.convocatoria-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    color: white !important;
+}
+
+.fechas-convocatoria {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+}
+
+.fechas-convocatoria i {
+    margin-right: 5px;
+}
+
+/* Projects table */
+.projects-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.table-proyectos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.table-proyectos thead th {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-weight: 700;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.table-proyectos tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.table-proyectos tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-proyectos tbody tr:hover td {
+    background-color: rgba(247, 56, 120, 0.05);
+}
+
+.project-name {
+    font-weight: 600;
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.project-name:hover {
+    color: var(--primary-color);
+}
+
+.project-leader {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-top: 3px;
+}
+
+.badge-estado {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    color: white !important;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* Status colors for convocatorias */
+.bg-vigente {
+    background-color: var(--vigente-color) !important;
+}
+.bg-proximamente {
+    background-color: var(--proximamente-color) !important;
+}
+.bg-caducada {
+    background-color: var(--caducada-color) !important;
+}
+
+/* Status colors for projects */
+.bg-aprobado {
+    background-color: var(--aprobado-color) !important;
+}
+.bg-rechazado {
+    background-color: var(--rechazado-color) !important;
+}
+.bg-inicio {
+    background-color: var(--inicio-color) !important;
+}
+.bg-desarrollo {
+    background-color: var(--desarrollo-color) !important;
+}
+.bg-concluido {
+    background-color: var(--concluido-color) !important;
+}
+.bg-secondary {
+    background-color: var(--secondary-color) !important;
+}
+
+/* No projects alert */
+.no-projects-alert {
+    border-radius: 8px;
+    padding: 15px;
+    background-color: var(--light-color);
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+}
+
+.no-projects-alert i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Pagination */
+.paginacion-personalizada {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 0 20px 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .convocatoria-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .table-proyectos thead th,
+    .table-proyectos tbody td {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .badge-estado {
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+.nuevo-proyecto {
+    border: 1px solid #f73878;
+    color: #f73878;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: between;
+}
+
+.nuevo-proyecto:hover {
+    background-color: #f73878;
+    color: white;
+    text-decoration: none;
+}
+
+.paginacion-personalizada nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.paginacion-personalizada .pagination {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 12px; /* Separación entre elementos */
+}
+
+.paginacion-personalizada .pagination li {
+    display: inline-block;
+}
+
+.paginacion-personalizada .pagination li a,
+.paginacion-personalizada .pagination li span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; /* Tamaño del botón */
+    height: 40px;
+    border-radius: 50%; /* Hace los botones circulares */
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+/* Hover */
+.paginacion-personalizada .pagination li a:hover {
+    background-color: #f73878;
+    color: white;
+    border-color: transparent;
+}
+
+/* Página actual */
+.paginacion-personalizada .pagination li.active span {
+    background-color: #f73878;
+    color: white;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Opcional: Deshabilitados */
+.paginacion-personalizada .pagination li.disabled span,
+.paginacion-personalizada .pagination li.disabled a {
+    opacity: 0.5;
+    pointer-events: none;
+}

@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     
     // Ruta adicional para mostrar un proyecto (si la necesitas específicamente)
     Route::get('/proyectos/{proyecto}', [ProyectosController::class, 'show'])->name('proyectos.show');
+
     // Rutas para manejo de PDFs
     Route::get('/proyectos/{proyecto}/download', [ProyectosController::class, 'downloadPdf'])
          ->name('proyectos.download');
@@ -28,10 +29,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proyectos/{proyecto}/generate-pdf', [ProyectosController::class, 'generatePdf'])
          ->name('proyectos.generate-pdf');
 
+    Route::get('/convocatorias-por-categoria/{id}', [ProyectosController::class, 'porCategoria']);
 
      // Ruta de proyectos
     Route::get('/proyectos', [ProyectosController::class, 'index'])->name('proyectos.index');
     
     // Ruta de monitoreo
-    Route::get('/monitoreo', [MonitoreoController::class, 'index'])->name('monitoreo.index');
+   Route::prefix('monitoreo')->group(function () {
+    Route::get('/', [MonitoreoController::class, 'index'])->name('monitoreo.index');
+    Route::get('/convocatorias', [MonitoreoController::class, 'convocatorias'])->name('monitoreo.convocatorias');
+    Route::get('/convocatoria/{convocatoria}/proyectos', [MonitoreoController::class, 'proyectosPorConvocatoria'])->name('monitoreo.convocatoria.proyectos');
+    Route::put('/{proyecto}/status', [MonitoreoController::class, 'updateStatus'])->name('monitoreo.updateStatus');
+Route::get('/monitoreo/{proyecto}', [MonitoreoController::class, 'show2'])->name('monitoreo.show2');
+
+});
 });

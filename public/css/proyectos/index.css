@@ -1,0 +1,186 @@
+:root {
+    --primary-color: #f73878;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+.boton-proyecto {
+    border: 1px solid #f73878;
+    color: #f73878;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    /* margin-right: 20px; */
+}
+
+.boton-proyecto:hover {
+    background-color: #f73878;
+    color: white;
+    text-decoration: none;
+}
+.nuevo-proyecto {
+    border: 1px solid #f73878;
+    color: #f73878;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: between;
+}
+
+.nuevo-proyecto:hover {
+    background-color: #f73878;
+    color: white;
+    text-decoration: none;
+}
+.section-card {
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+.boton-eliminar {
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.boton-eliminar:hover {
+    background-color: #5f6365;
+    color: white;
+    text-decoration: none;
+}
+.nuevo {
+    color: #ffffff;
+    background-color: #f73878;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-right: 20px;
+    border: none;
+}
+.nuevo:hover {
+    background-color: #db386e;
+    color: white;
+    text-decoration: none;
+}
+.paginacion-personalizada nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.paginacion-personalizada .pagination {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 12px; /* Separación entre elementos */
+}
+
+.paginacion-personalizada .pagination li {
+    display: inline-block;
+}
+
+.paginacion-personalizada .pagination li a,
+.paginacion-personalizada .pagination li span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; /* Tamaño del botón */
+    height: 40px;
+    border-radius: 50%; /* Hace los botones circulares */
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+/* Hover */
+.paginacion-personalizada .pagination li a:hover {
+    background-color: #f73878;
+    color: white;
+    border-color: transparent;
+}
+
+/* Página actual */
+.paginacion-personalizada .pagination li.active span {
+    background-color: #f73878;
+    color: white;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Opcional: Deshabilitados */
+.paginacion-personalizada .pagination li.disabled span,
+.paginacion-personalizada .pagination li.disabled a {
+    opacity: 0.5;
+    pointer-events: none;
+}
+table {
+    width: 100%;
+}
+
+.badge-estado {
+    display: inline-block;
+    padding: 4px 18px; /* más ancho */
+    border-radius: 50px; /* totalmente redondeado */
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    cursor: default;
+}
+.bg-aprobado {
+    background-color: var(--success-color);
+    color: var(--light-color);
+}
+.bg-rechazado {
+    background-color: var(--danger-color);
+    color: var(--light-color);
+}
+.bg-inicio {
+    background-color: var(--info-color);
+    color: var(--light-color);
+}
+.bg-desarrollo {
+    background-color: var(--warning-color);
+    color: var(--dark-color);
+}
+.bg-concluido {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+.bg-secondary {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+}

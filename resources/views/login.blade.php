@@ -14,13 +14,12 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="Correo" class="form-label">Email</label>
-                                <input type="Correo" class="form-control" id="Correo" name="Correo" required>
+                                <label for="correo_institucional" class="form-label">Email</label>
+                                <input type="Correo" class="form-control" id="correo_institucional" name="correo_institucional" required>
                             </div>
                             <div class="mb-3">
-                                <label for="Contrasena" class="form-label">Contraseña</label>
-                                <input type="Contrasena
-                                " class="form-control" id="Contrasena" name="Contrasena" required>
+                                <label for="contrasena" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Ingresar</button>
                         </form>

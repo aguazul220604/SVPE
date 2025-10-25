@@ -5,44 +5,41 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Carrera;
+use App\Models\Institucion;
+
 
 class LoginController extends Controller
 {
     // Mostrar formulario de login
     public function showLoginForm()
     {
-        $carreras = Carrera::all();
-        return view('login', compact('carreras'));
+        $instituciones = Institucion::all();
+        return view('login', compact('instituciones'));
     }
+    
 
     // Procesar el login
     public function login(Request $request)
     {
-        // Validación de campos con los nombres correctos
-        $request->validate([
-            'Correo' => 'required|email',
-            'Contrasena' => 'required|string',
+            $request->validate([
+            'correo_institucional' => 'required|email',
+            'contrasena' => 'required|string',
         ]);
 
-        // Intentar autenticación usando los campos personalizados
-        $credentials = [
-            'Correo' => $request->Correo,
-            'password' => $request->Contrasena,
-        ];
+        $credentials = $request->only('correo_institucional', 'contrasena');
 
-        if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/proyectos');
-        }else {
-            dd('Falló el login'); // 👈 Esto te mostrará si fallan las credenciales
+        if (Auth::attempt([
+            'correo_institucional' => $credentials['correo_institucional'],
+            'password' => $credentials['contrasena'], // Laravel buscará getAuthPassword()
+        ])) {
+            return redirect()->intended('/proyectos'); 
         }
 
-        return back()->withErrors([
-            'Correo' => 'Credenciales incorrectas',
-        ]);
     }
-    
+    public function getAuthPassword()
+    {
+        return $this->contrasena;
+    }
     // Cerrar sesión
     public function logout(Request $request)
     {
@@ -55,6 +52,6 @@ class LoginController extends Controller
     // Sobrescribir el campo que Laravel usa para login
     public function username()
     {
-        return 'Correo';
+        return 'correo_institucional';
     }
 }

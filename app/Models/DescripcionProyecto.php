@@ -6,45 +6,47 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DescripcionProyecto extends Model
-{
-    use HasFactory;
+{use HasFactory;
 
-    protected $table = 'TblDescripcionProyecto';
-    protected $primaryKey = 'IdDescProyecto';
-    public $timestamps = false;
+            protected $table = 'descripcion_proyectos';
+            protected $primaryKey = 'idDescripcion_Proyecto';
+            public $timestamps = false;
 
-    protected $fillable = [
-        'Nombre',
-        'PropValor',
-        'Introduccion',
-        'Justificacion',
-        'Descripcion',
-        'ObjsGrals',
-        'ObjsEspec',
-        'EdoArte',
-        'Fortalezas',
-        'Oportunidades',
-        'Debilidades',
-        'Amenazas',
-        'Metodologia',
-        'Costos',
-        'Resultados',
-        'Referencias',
-        'Pdf',
-        'IdStatus',
-        'FechaAlta',
-        'FechaMod',
-        'IdUsuarioAlta',
-        'IdUsuarioMod',
-    ];
+            protected $fillable = [
+                'nombre',
+                'propuesta_valor',
+                'introduccion',
+                'justificacion',
+                'descripcion',
+                'resumen',
+                'objetivos_generales',
+                'objetivos_especificos',
+                'estado_arte',
+                'fortalezas',
+                'oportunidades',
+                'debilidades',
+                'amenazas',
+                'metodologias',
+                'costos',
+                'resultados',
+                'referencias',
+                'pdf',
+                'idEstado',
+                'fecha_alta',
+                'idUsuario_Alta',
+                'fecha_mod',
+                'idUsuario_Mod',
+            ];
 
-    public function estatus()
-    {
-        return $this->belongsTo(Estatus::class, 'IdStatus');
-    }
+            // Relaciones
 
-    public function proyecto()
-    {
-        return $this->hasOne(Proyecto::class, 'IdDescripcion');
-    }
+            public function estado()
+            {
+                return $this->belongsTo(Estatus::class, 'idEstado');
+            }
+
+            public function proyecto()
+            {
+                return $this->hasOne(Proyecto::class, 'idDescripcion_Proyecto');
+            }
 }
