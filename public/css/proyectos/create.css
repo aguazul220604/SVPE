@@ -1,0 +1,266 @@
+ body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+         .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+           color: #f73878;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 5px;
+        }
+      
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+       .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333; /* opcional: mejora el contraste */
+        }
+      ul.listado {
+  font-weight: normal;
+}
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+            a.btn {
+        text-decoration: none;
+        display: inline-block;
+            }
+
+        .btn-outline {
+            background-color: white;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            background-color: #f2f2f2;
+        }
+         .guardar{
+        color: #ffffff;
+        background-color: #f73878;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        border: none;
+
+        }
+         .guardar:hover {
+        background-color: #db386e;
+        color: white;
+        text-decoration: none;
+        }
+         .btn-cancelar{
+        color: #ffffff;
+        background-color: #6C757D;
+        border-radius: 8px;
+        padding: 11px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+        }
+         .btn-cancelar:hover {
+        background-color: #5f6365;
+        color: white;
+        text-decoration: none;
+        }
+        .boton-proyecto{
+        border: 1px solid #f73878;
+         color: #f73878;
+        background-color: transparent;
+        border-radius: 8px;
+        padding: 11px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-right: 20px;
+         }
+
+        .boton-proyecto:hover {
+        background-color: #f73878;
+        color: white;
+        text-decoration: none;
+        }
+        /* check */
+        .checkbox-label {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 8px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .checkbox-label:checked {
+    background-color: #f73878;
+    border-color: #f73878;
+  }
+
+  .checkbox-label:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .financiamiento-label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  #tiposFinanciamientoContainer {
+    display: none;
+    margin-top: 10px;
+    padding-left: 26px;
+  }
+
+
+     .modal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      top:auto;
+      left: 100;
+    }
+    /* Modal content */
+    .modal-cont {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 600px;
+      position: relative;
+    }
+     
+
+
+    .modal-header {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .alert {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #f5c6cb;
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+
+    th {
+      background: #444;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #eee;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: #5a6268;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #343a40;
+    }
